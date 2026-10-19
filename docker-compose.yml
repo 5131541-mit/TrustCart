@@ -1,0 +1,22 @@
+# docker compose up --build            (set SECRET_KEY, DEVICE_API_KEY, ADMIN_PASSWORD, MANAGER_PASSWORD, STAFF_PASSWORD in a .env file)
+# docker compose --profile twin up     (also runs the digital twin against the app)
+services:
+  app:
+    build: .
+    ports: ["8000:8000"]
+    environment:
+      SECRET_KEY: ${SECRET_KEY:?set SECRET_KEY}
+      DEVICE_API_KEY: ${DEVICE_API_KEY:?set DEVICE_API_KEY}
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD:?set ADMIN_PASSWORD}
+      MANAGER_PASSWORD: ${MANAGER_PASSWORD:?set MANAGER_PASSWORD}
+      STAFF_PASSWORD: ${STAFF_PASSWORD:?set STAFF_PASSWORD}
+      UPI_ID: ${UPI_ID:-store@upi}
+      COOKIE_SECURE: "0"          # set to 1 when served over https
+    volumes: ["data:/data"]
+  twin:
+    build: .
+    profiles: ["twin"]
+    depends_on: [app]
+    environment: {DEVICE_API_KEY: "${DEVICE_API_KEY}", ADMIN_PASSWORD: "${ADMIN_PASSWORD}", STAFF_PASSWORD: "${STAFF_PASSWORD}"}
+    command: ["sh", "-c", "sleep 4 && python digital_twin.py --server http://app:8000 --shoppers 4 --jobs 6"]
+volumes: {data: {}}

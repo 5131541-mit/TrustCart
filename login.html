@@ -1,0 +1,28 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Sign in · TrustCart</title>
+<style>*{box-sizing:border-box}body{margin:0;min-height:100vh;display:grid;place-items:center;background:radial-gradient(circle at 25% 15%,#16397a,#081428 62%);color:#e8f0ff;font:15px system-ui,Segoe UI,sans-serif;padding:16px}
+.c{width:min(440px,100%);background:#0c1e3c;border:1px solid #173258;border-radius:18px;padding:26px;box-shadow:0 24px 70px #0009}h1{margin:0;font-size:28px}.s{color:#8fa6c8;margin:2px 0 16px}
+.tabs{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:6px}.tabs button{padding:10px 4px;border:1px solid #173258;background:#0a1a34;color:#b8c8e6;border-radius:10px;cursor:pointer;font:inherit;font-size:13px}
+.tabs button.on{background:#1e6cff;color:#fff;border-color:#1e6cff}.d{color:#8fa6c8;font-size:13px;min-height:36px;margin:8px 0 0}
+label{display:block;margin:12px 0 4px;color:#8fa6c8;font-size:13px}input{width:100%;padding:12px;border-radius:10px;border:1px solid #173258;background:#0a1a34;color:#e8f0ff;font:inherit}
+.go{width:100%;margin-top:18px;padding:12px;border:0;border-radius:10px;background:#1e6cff;color:#fff;font:inherit;font-weight:600;cursor:pointer}.go:disabled{opacity:.6}
+#e{color:#ff8a8a;min-height:20px;margin-top:10px;font-size:14px}.lk{background:none;border:0;color:#7fb0ff;cursor:pointer;font:inherit;padding:0}</style></head><body>
+<div class="c"><h1>🛡 TrustCart</h1><p class="s">AI-powered scan &amp; go loss prevention</p>
+<div class="tabs" role="tablist" id="tb"><button data-r="customer">Customer</button><button data-r="staff">Staff</button><button data-r="manager">Manager</button><button data-r="admin">Admin</button></div><p class="d" id="d"></p>
+<form id="f"><div id="nm" hidden><label for="n">Your name</label><input id="n" autocomplete="name" maxlength="40"></div>
+<label for="u">Username</label><input id="u" autocomplete="username" required><label for="p">Password</label><input id="p" type="password" autocomplete="current-password" required minlength="8">
+<button class="go" id="go">Sign in</button><div id="e" role="alert"></div></form>
+<p class="s" id="sw" style="margin:10px 0 0;font-size:13px"></p></div>
+<script>
+const D={customer:'Shop with scan &amp; go. Create a free account or sign in.',staff:'Store staff: review items flagged for a spot-check.',manager:'Store manager: dashboard, alerts, reports and settings.',admin:'Administrator: users and roles, AI model, devices and all manager tools.'};
+let role='customer',reg=false;const $=i=>document.getElementById(i);
+function draw(){document.querySelectorAll('#tb button').forEach(b=>b.classList.toggle('on',b.dataset.r==role));$('d').innerHTML=D[role];$('nm').hidden=!(reg&&role=='customer');
+ $('go').textContent=reg&&role=='customer'?'Create account':'Sign in';$('p').autocomplete=reg?'new-password':'current-password';
+ $('sw').innerHTML=role=='customer'?(reg?'Already have an account? <button class="lk" id="t">Sign in</button>':'New here? <button class="lk" id="t">Create an account</button>'):'Accounts for this role are created by an administrator.';
+ const t=$('t');if(t)t.onclick=()=>{reg=!reg;draw()}}
+$('tb').onclick=e=>{if(e.target.dataset.r){role=e.target.dataset.r;reg=false;$('e').textContent='';draw()}};
+$('f').onsubmit=async e=>{e.preventDefault();$('go').disabled=true;$('e').textContent='';
+ const body=reg&&role=='customer'?{username:$('u').value,password:$('p').value,name:$('n').value||$('u').value}:{username:$('u').value,password:$('p').value,role};
+ const r=await fetch(reg&&role=='customer'?'/api/register':'/api/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});let j={};try{j=await r.json()}catch(x){}
+ if(r.ok)location=j.home;else{$('e').textContent=typeof j.detail=='string'?j.detail:'Please check your details';$('go').disabled=false}};
+draw();
+</script></body></html>

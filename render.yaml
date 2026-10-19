@@ -1,0 +1,14 @@
+# One-click deploy on Render.com (Blueprint). Uses a persistent disk for the SQLite database.
+services:
+  - type: web
+    name: trustcart
+    runtime: docker
+    plan: starter
+    disk: {name: data, mountPath: /data, sizeGB: 1}
+    envVars:
+      - {key: SECRET_KEY, generateValue: true}
+      - {key: DEVICE_API_KEY, generateValue: true}
+      - {key: ADMIN_PASSWORD, sync: false}
+      - {key: MANAGER_PASSWORD, sync: false}
+      - {key: STAFF_PASSWORD, sync: false}
+      - {key: UPI_ID, value: store@upi}

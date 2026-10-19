@@ -1,0 +1,13 @@
+path: .
+train: images/train
+val: images/val
+names:
+  0: chips
+  1: cola
+  2: redbull
+  3: sunglasses
+  4: milk
+  5: apple
+  6: bar
+  7: banana
+  8: bread

@@ -1,0 +1,56 @@
+{
+ "classes": [
+  "apple",
+  "banana",
+  "bar",
+  "bread",
+  "chips",
+  "cola",
+  "milk",
+  "rb",
+  "sun"
+ ],
+ "photos": {
+  "apple": 1,
+  "banana": 1,
+  "bar": 1,
+  "bread": 1,
+  "chips": 3,
+  "cola": 2,
+  "milk": 2,
+  "rb": 1,
+  "sun": 2
+ },
+ "n_train": 714,
+ "trained_at": "2026-10-19 17:28:25",
+ "augmented_val_accuracy": 1.0,
+ "cross_render_test": [
+  {
+   "truth": "bar",
+   "predicted": "rb",
+   "confidence": 0.49
+  },
+  {
+   "truth": "chips",
+   "predicted": "chips",
+   "confidence": 1.0
+  },
+  {
+   "truth": "cola",
+   "predicted": "rb",
+   "confidence": 0.64
+  },
+  {
+   "truth": "rb",
+   "predicted": "rb",
+   "confidence": 1.0
+  },
+  {
+   "truth": "sun",
+   "predicted": "sun",
+   "confidence": 0.72
+  }
+ ],
+ "cross_render_accuracy": 0.6,
+ "note": "Cross-render test = product shots from a different design mock-up that the model never saw. It has only a handful of samples."
+}

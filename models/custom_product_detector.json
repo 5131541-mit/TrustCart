@@ -1,0 +1,22 @@
+{
+  "type": "HOG + LinearSVC custom product detector",
+  "classes": [
+    "apple",
+    "banana",
+    "bar",
+    "bread",
+    "chips",
+    "cola",
+    "milk",
+    "rb",
+    "sun"
+  ],
+  "background_class": "background",
+  "samples": 6112,
+  "train_samples": 5011,
+  "validation_samples": 1101,
+  "validation_accuracy": 1.0,
+  "trained_from": "supplied TrustCart seed images + synthetic shelf scenes",
+  "trained_at": "2026-10-19 17:28:42",
+  "note": "MVP detector. Real deployment should add annotated shelf/camera frames."
+}
